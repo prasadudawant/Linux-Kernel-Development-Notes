@@ -12,9 +12,8 @@
 
 ## Miscellaneous
 
-* [Page 1](miscellaneous/page-1/README.md)
-  * [Miscellaneous](miscellaneous/page-1/miscellaneous/README.md)
-    * [Linux Commands](miscellaneous/page-1/miscellaneous/linux-commands.md)
-    * [My Queries about Linux Kernel Development](miscellaneous/page-1/miscellaneous/my-queries-about-linux-kernel-development.md)
-    * [Learning Path for Linux Kernel Development](miscellaneous/page-1/miscellaneous/learning-path-for-linux-kernel-development.md)
-    * [Interview Questions on Linux Kernel](miscellaneous/page-1/miscellaneous/interview-questions-on-linux-kernel.md)
+* [Linux Commands](miscellaneous/linux-commands.md)
+* [My Queries about Linux Kernel Development](miscellaneous/my-queries-about-linux-kernel-development.md)
+* [Learning Path for Linux Kernel Development](miscellaneous/learning-path-for-linux-kernel-development.md)
+* [Interview Questions on Linux Kernel](miscellaneous/interview-questions-on-linux-kernel.md)
+* [temp](miscellaneous/temp.md)
