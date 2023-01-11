@@ -42,7 +42,7 @@ git email is also email client but we will use it only for sending patch email a
 4.  **Generate an app-specific password of Gmail for git to use:** \
     go to the link just above, scroll down to "App passwords" and click on it. Select "Mail" as the app and Select "Other _(Custom name)_" as the device. Name device as _git send-email_ or similar. Click the "GENERATE" button. It will pop up with a 16-digit full-access password. Write it down, without the spaces in it. It is just the 16 chars.
 
-    <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>select "MAIL" as app</p></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption><p>select "MAIL" as app</p></figcaption></figure>
 
     <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption><p>select "other" as device</p></figcaption></figure>
 
