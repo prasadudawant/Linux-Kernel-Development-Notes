@@ -27,6 +27,6 @@ description: This page describes how to configure and build the Linux kernel.
        To determine which version of make you have on your system, run the following command: \
        `make --version`
 
-## Config
+## Configure Your Kernel
 
-## Build
+## Build Your Kernel

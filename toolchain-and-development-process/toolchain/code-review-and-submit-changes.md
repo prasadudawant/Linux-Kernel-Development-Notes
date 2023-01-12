@@ -18,6 +18,52 @@ description: >-
 
 [#git-post-commit-hooks](code-review-and-submit-changes.md#git-post-commit-hooks "mention")
 
+## Commit your changes
+
+1. Commit Your changes.
+2. When you commit a patch, you will have to describe what the patch does. The commit message has a subject or short log and longer commit message. It is important to learn what should be in the commit log and what doesn’t make sense. Including what code does isn’t very helpful, whereas why the code change is needed is valuable. Please read [_How to Write a Git Commit Message_](https://chris.beams.io/posts/git-commit/) for tips on writing good commit messages.
+3. Now, run the commit and add a commit message. Document your change and include relevant testing details and results of that testing. As a general rule, don't include change lines in the commit log.
+4. After you make the commit, git post commit hook will output any **checkpatch** errors or warnings that your patch creates. If you see warnings or errors that you know you added, you can amend the commit by changing the file, using **git add** to add the changes, and then using **git commit --amend** to commit the changes. Follow steps from [#workflow](../../#workflow "mention") untill you resolve all errors.
+5. When working on a patch based on a suggested idea, make sure to give credit using the **Suggested-by** tag. [Other tags](https://www.kernel.org/doc/html/latest/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes) used for giving credit are **Tested-by**, **Reported-by**. **Signed-off-by** should be the last tag.
+6. Make sure your commit looks fine by running these commands:
+   * `git show HEAD` - This will show the latest commit. If you want git to show a different commit, you can pass the commit ID (the long number that's shown in `git log`, or the short number that's shown in `git log --pretty=oneline --abbrev-commit`
+   * `git log`&#x20;
+   * `git log --pretty=oneline --abbrev-commit`
+
+## Create and send Patch
+
+1. The next step is learning the how to send a patch to the Linux Kernel mailing lists for review. The **get\_maintainer.pl** script tells you whom to send the patch to. The **get\_maintainer.pl** show the list of people to send patches to. You should send the patch to maintainers, commit signers, supporters, and all the mailing lists shown in the **get\_maintainer.pl**’s output. Mailing lists are on the “**cc**” and the rest are on the “**To**” list when a patch is sent. The perl script in the kernel source directory `scripts/get_maintainer.pl` will either take a git commit or a file, and tell you who to send your patch to. Note that run get\_maintainer.pl script on file which has been modified.\
+   e.g., git show HEAD | perl scripts/get\_maintainer.pl\
+   `scripts/get_maintainer.pl -f drivers/media/usb/uvc/uvc_driver.c`
+2.  Create a patch that describes the change, using \
+    `git format-patch`. \
+    That command takes a starting commit ID (and optionally) an ending commit ID, in order to create patches for the commit after the starting commit ID. \
+    The -o flag specifies where to put the patch. \
+    e.g., following command will generate patch
+
+    `git format-patch -1 -o <directory name where patch will be created> <commit ID> --to=<email id from output of get_maintainer.pl script> --to=<email id from output of get_maintainer.pl script> --cc=<email id from output of get_maintainer.pl script> --cc=<email id from output of get_maintainer.pl script>`
+3.  If you need to, squash your commits you'd like to email as a patch into a single commit. There are multiple squash techniques, but here is one common way:
+
+    ```
+    git rebase -i my_first_commit~  # do NOT forget the tilde (~) at the end!
+    # In the git editor that opens up, manually set the first entry to 
+    # "pick", and set all others afterwards to "squash", or just "s" for short.
+    # Save, then close the editor and let it squash.
+    ```
+4. Create a patch file for your latest, squashed commit:\
+   `git format-patch -1 HEAD`
+5. Run scripts**/checkpatch.pl** before sending the patch. (Note that **checkpatch.pl** might suggest changes that are unnecessary! Use your best judgement when deciding whether it makes sense to make the change **checkpatch.pl** suggests. The end goal is for the code to be more readable. If **checkpatch.pl** suggests a change and you think the end result is not more readable, don't make the change. For example, if a line is 81 characters long, but breaking it makes the resulting code look ugly, don't break that line.) Also review patch manually.
+6. copy the patch file. send your copied patch to yourself(you need remove to & cc list in patch and add only your email id in to). Save it as raw text including all the headers. Run `git am raw_email.txt` and then review the changelog with `git log`. When that works then send the patch to the appropriate mailing list(s).
+7.  now you can send this original patch using:
+
+    `mutt -H <patch_file>`
+
+    `git send-email <patch_file>`
+
+    _****_[_**Note than your system shall be configured properly for .gitconfig before sending email**_](#user-content-fn-1)[^1]_**.**_
+8. _Refer_ [#send-patches](code-review-and-submit-changes.md#send-patches "mention")_****_
+9. After this you may get feedback/review comments/changes requested in commit
+
 ## Send patches
 
 [#general-guidelines-for-email-client-and-sending-patches-for-review](code-review-and-submit-changes.md#general-guidelines-for-email-client-and-sending-patches-for-review "mention")
@@ -229,3 +275,6 @@ git email is also email client but we will use it only for sending patch email a
 
 
 
+
+
+[^1]: 
