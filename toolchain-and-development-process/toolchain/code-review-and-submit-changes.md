@@ -60,7 +60,7 @@ description: >-
 
     `git send-email <patch_file>`
 
-    _****_[_**Note than your system shall be configured properly for .gitconfig before sending email**_](#user-content-fn-1)[^1]_**.**_
+    _****_[_**Note than your system shall be configured properly for .gitconfig before sending email**_](#user-content-fn-1)[^1]_**. Follow**_ [#configure-your-system-for-sending-patches-for-review](code-review-and-submit-changes.md#configure-your-system-for-sending-patches-for-review "mention")_****_
 8. _Refer_ [#send-patches](code-review-and-submit-changes.md#send-patches "mention")_****_
 9. After this you may get feedback/review comments/changes requested in commit
 
