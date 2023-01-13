@@ -23,7 +23,7 @@ description: >-
 1. Commit Your changes.
 2. When you commit a patch, you will have to describe what the patch does. The commit message has a subject or short log and longer commit message. It is important to learn what should be in the commit log and what doesn’t make sense. Including what code does isn’t very helpful, whereas why the code change is needed is valuable. Please read [_How to Write a Git Commit Message_](https://chris.beams.io/posts/git-commit/) for tips on writing good commit messages.
 3. Now, run the commit and add a commit message. Document your change and include relevant testing details and results of that testing. As a general rule, don't include change lines in the commit log.
-4. After you make the commit, git post commit hook will output any **checkpatch** errors or warnings that your patch creates. If you see warnings or errors that you know you added, you can amend the commit by changing the file, using **git add** to add the changes, and then using **git commit --amend** to commit the changes. Follow steps from [#workflow](../../#workflow "mention") untill you resolve all errors.
+4. After you make the commit, git post commit hook will output any **checkpatch** errors or warnings that your patch creates. If you see warnings or errors that you know you added, you can amend the commit by changing the file, using **git add** to add the changes, and then using **git commit --amend** to commit the changes. Refer [#revising-the-patches](code-review-and-submit-changes.md#revising-the-patches "mention") Follow steps from [#workflow](../../#workflow "mention") untill you resolve all errors.
 5. When working on a patch based on a suggested idea, make sure to give credit using the **Suggested-by** tag. [Other tags](https://www.kernel.org/doc/html/latest/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes) used for giving credit are **Tested-by**, **Reported-by**. **Signed-off-by** should be the last tag.
 6. Make sure your commit looks fine by running these commands:
    * `git show HEAD` - This will show the latest commit. If you want git to show a different commit, you can pass the commit ID (the long number that's shown in `git log`, or the short number that's shown in `git log --pretty=oneline --abbrev-commit`
@@ -69,6 +69,8 @@ description: >-
 [#general-guidelines-for-email-client-and-sending-patches-for-review](code-review-and-submit-changes.md#general-guidelines-for-email-client-and-sending-patches-for-review "mention")
 
 [#using-mutt-email-client](code-review-and-submit-changes.md#using-mutt-email-client "mention")
+
+[#responding-to-emails](code-review-and-submit-changes.md#responding-to-emails "mention")
 
 ### git email configurations
 
@@ -195,7 +197,22 @@ git email is also email client but we will use it only for sending patch email a
    4. In the “IMAP access” section, select **Enable IMAP**.
    5. Finally click on **save changes**
 
-#### Using mutt email client
+### Git Post-Commit Hooks
+
+* Git includes some _hooks_ for scripts that can be run before or after specific git commands are executed. Checking the patch for compliance and errors can be automated using git pre-commit and post-commit hooks. The _post-commit hook_ is run after you make a git commit with the **git commit** command.
+  1. If you don't already have **/usr/share/codespell/dictionary.txt**, do:\
+     _`sudo apt-get install codespell`_
+  2.  If you already have a **.git/hooks/post-commit** file, move it to **.git/hooks/post-commit.sample**. git will not execute files with the **.sample** extension. Then, edit the **.git/hooks/post-commit** file to contain only the following two lines:
+
+      <pre data-overflow="wrap" data-line-numbers><code><strong>#!bash 
+      </strong><strong>#!/bin/sh 
+      </strong>exec git show --format=email HEAD | ./scripts/checkpatch.pl --strict --codespell 
+      # Make sure the file is executable: 
+      chmod a+x .git/hooks/post-commit
+      </code></pre>
+  3. After you make the commit, this hook will output any **checkpatch** errors or warnings that your patch creates. If you see warnings or errors that you know you added, you can amend the commit by changing the file, using **git add** to add the changes, and then using **git commit --amend** to commit the changes.
+
+### Using mutt email client
 
 1. open mutt gui with executing _`mutt`_ command in terminal
 2. send an email by executing following command in terminal\
@@ -217,22 +234,7 @@ git email is also email client but we will use it only for sending patch email a
    `mutt -H < your patch filename >`
 7. refer [https://www.linux.com/training-tutorials/setup-mutt-gmail-centos-and-ubuntu/](https://www.linux.com/training-tutorials/setup-mutt-gmail-centos-and-ubuntu/), [https://trendoceans.com/how-to-install-and-configure-mutt-command-line-email-client/](https://trendoceans.com/how-to-install-and-configure-mutt-command-line-email-client/), [https://linuxconfig.org/how-to-install-configure-and-use-mutt-with-a-gmail-account-on-linux](https://linuxconfig.org/how-to-install-configure-and-use-mutt-with-a-gmail-account-on-linux)
 
-### Git Post-Commit Hooks
-
-* Git includes some _hooks_ for scripts that can be run before or after specific git commands are executed. Checking the patch for compliance and errors can be automated using git pre-commit and post-commit hooks. The _post-commit hook_ is run after you make a git commit with the **git commit** command.
-  1. If you don't already have **/usr/share/codespell/dictionary.txt**, do:\
-     _`sudo apt-get install codespell`_
-  2.  If you already have a **.git/hooks/post-commit** file, move it to **.git/hooks/post-commit.sample**. git will not execute files with the **.sample** extension. Then, edit the **.git/hooks/post-commit** file to contain only the following two lines:
-
-      <pre data-overflow="wrap" data-line-numbers><code><strong>#!bash 
-      </strong><strong>#!/bin/sh 
-      </strong>exec git show --format=email HEAD | ./scripts/checkpatch.pl --strict --codespell 
-      # Make sure the file is executable: 
-      chmod a+x .git/hooks/post-commit
-      </code></pre>
-  3. After you make the commit, this hook will output any **checkpatch** errors or warnings that your patch creates. If you see warnings or errors that you know you added, you can amend the commit by changing the file, using **git add** to add the changes, and then using **git commit --amend** to commit the changes.
-
-## General guidelines for email client and sending patches for review
+### General guidelines for email client and sending patches for review
 
 1. **Only Inline text/No attachments** - Patches for the Linux kernel are submitted via email, preferably as inline text in the body of the email. Some maintainers accept attachments, but then the attachments should have content-type `text/plain`. However, attachments are generally frowned upon/disapproved because it makes quoting portions of the patch more difficult in the patch review process.
 2. **Plain Text/No HTML** - It’s also strongly recommended that you use plain text in your email body, for patches and other emails alike( No HTML mails. No attachments. ). [https://useplaintext.email](https://useplaintext.email/) may be useful for information on how to configure your preferred email client, as well as listing recommended email clients.
@@ -271,7 +273,49 @@ git email is also email client but we will use it only for sending patch email a
 
     Sweet! Happy to help.
     ```
-12.
+
+### Responding to emails
+
+1. Respond to emails inline, rather than top posting.
+2. This is a [good example of responding inline](http://marc.info/?l=linux-usb\&m=139325835826056\&w=2).
+3. Make sure your email client appends '>' characters to inline mail when you respond to it.
+4. When you reply inline to a message, the lines you type shouldn't have a '>' symbol at the beginning of the line. Put a blank line before and after their response. This makes it easier to find where some new text has been added.
+5.  Example :
+
+    ```
+    From: Kludge Crufty <example@email.com>
+    Subject: Design decisions for next release
+
+    On Fri, Sep 12, 2014 at 03:00:56PM -0700, Baz Quux wrote:
+    > On Fri, 12 September 2014 at 02:30:17PM -0700, Foo Bar wrote:
+    > >
+    > > I think we should do X.
+    >
+    > I think we should do Y.
+
+    I think we should do Z.
+
+    Kludge
+    ```
+
+    * The email was sent by Kludge. Kludge is responding to an email sent by Baz at 3PM. Baz was responding to an email sent from Foo at 2:30PM. From this snippet of mail, we can tell who said what by looking at the number of '>' symbols in front of each line:
+    * Kludge wants to do Z, because their dialog has no '>' in front of it.
+    * Baz wants to do Y, because their dialog has one '>' in front, and we follow that '>' level up to Baz's "wrote" line.
+    * Foo wants to do X, because their dialog has two '> >' in front, and we follow the last '>' up to Foo's "wrote" line.
+
+### Revising the patches
+
+1. Make the changes - Update the files to match the changes requested by the maintainers.
+2. Follow[#workflow](../../#workflow "mention")
+3. commit - add changes to the staging area with `git add`, you can add those changes to your commit with the amend command, along with your previously committed changes.
+   1. If the patch is your HEAD commit, you can run:\
+      `git commit -a --amend -v` \
+      That will allow you to edit the commit message.
+   2. If you want to take the previous commit out of the git history, but leave the changes in your working tree, you can run:\
+      `git reset --mixed HEAD^`&#x20;
+   3. If you want to completely get rid of all your changes, and revert all files to their state before your commit, you can use the --hard flag instead of the --mixed flag. Use this flag with care!
+
+### Editing patches in series
 
 
 
