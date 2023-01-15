@@ -29,6 +29,7 @@ description: >-
    * `git show HEAD` - This will show the latest commit. If you want git to show a different commit, you can pass the commit ID (the long number that's shown in `git log`, or the short number that's shown in `git log --pretty=oneline --abbrev-commit`
    * `git log`&#x20;
    * `git log --pretty=oneline --abbrev-commit`
+7. If you are working on patch-set then use guideline mentioned for topics Versioning patchsets, Submitting a patchset at [https://kernelnewbies.org/FirstKernelPatch](https://kernelnewbies.org/FirstKernelPatch)
 
 ## Create and send Patch
 
@@ -196,6 +197,28 @@ git email is also email client but we will use it only for sending patch email a
    3. Click the **Forwarding and POP/IMAP** tab.
    4. In the “IMAP access” section, select **Enable IMAP**.
    5. Finally click on **save changes**
+6.  Use this to send the last 3 commits:
+
+    ```
+    git send-email HEAD~3
+    ```
+
+    Or all commits since a particular one:
+
+    ```
+    git send-email 209210d
+    ```
+
+    Or just the second-to-last commit:
+
+    ```
+    git send-email -1 HEAD^^
+    ```
+7.  Some projects use a single mailing list for several git repositories. Try this to clarify that you're working on the "foobar" project:
+
+    ```
+    git config format.subjectPrefix "PATCH foobar"
+    ```
 
 ### Git Post-Commit Hooks
 
@@ -314,11 +337,95 @@ git email is also email client but we will use it only for sending patch email a
    2. If you want to take the previous commit out of the git history, but leave the changes in your working tree, you can run:\
       `git reset --mixed HEAD^`&#x20;
    3. If you want to completely get rid of all your changes, and revert all files to their state before your commit, you can use the --hard flag instead of the --mixed flag. Use this flag with care!
+   4. Follow [#editing-patches-in-series](code-review-and-submit-changes.md#editing-patches-in-series "mention") if you need to modify patch-set(one of the patch from multiple patches)
 
 ### Editing patches in series
 
+1. If patch that's not the head commit (say patch 1 of 3), you can use the "interactive" mode of `git rebase`. Simply pass `git rebase` the `-i` flag, followed by the commit ID of the patch before the patch you want to edit.\
+   `git rebase -i <commit ID of the patch which you want to edit>^`\
+   ``Git will then pop up a window with a list of commits. Change the word "pick" to "edit" corresponding to commit you want to edit, and write and quit. Git will then rewind history to that commit, and you will be able to edit it with `git add` and `git commit --amend -v.`
+2. Once you've made your changes, you should run:\
+   `git rebase --continue`
+3. Sometimes when you amend commits, you will run into conflicts. Git will place conflict markers ('<<<<' and '>>>>') in the effected files. You need to resolve those conflicts by editing the file, adding them with `git add` and then running `git rebase --continue`. Make sure to remove the "Conflicts" lines from your commits that git adds by default when there's a conflict.
+4. You can always abort the rebase by running:\
+   `git rebase --abort`
+5. Example
+   *   say we had this git log:
+
+       ```
+       40336d6 USB: xHCI: override bogus bulk wMaxPacketSize values
+       eaadde4 xhci: fix list access before init
+       1f35618 xhci-mem: init list heads at the beginning of init
+       c1be5a5 Linux 3.9
+       ```
+
+
+   * If I needed to edit commit 1f35618, I would run:\
+     `git rebase -i 1f35618^`
+   *   Git will then pop up a window with a list of commits:
+
+       ```
+       pick 1f35618 xhci-mem: init list heads at the beginning of init
+       pick eaadde4 xhci: fix list access before init
+       pick 40336d6 USB: xHCI: override bogus bulk wMaxPacketSize values
+
+       # Rebase c1be5a5..40336d6 onto c1be5a5
+       #
+       # Commands:
+       #  p, pick = use commit
+       #  r, reword = use commit, but edit the commit message
+       #  e, edit = use commit, but stop for amending
+       #  s, squash = use commit, but meld into previous commit
+       #  f, fixup = like "squash", but discard this commit's log message
+       #  x, exec = run command (the rest of the line) using shell
+       #
+       # If you remove a line here THAT COMMIT WILL BE LOST.
+       # However, if you remove everything, the rebase will be aborted.
+       ```
+   * We want to edit commit 1f35618, so we change the word "pick" to "edit", and write and quit. Git will then rewind history to that commit, and you will be able to edit it with `git add` and `git commit --amend -v`.
+6. Refer [#commit-your-changes](code-review-and-submit-changes.md#commit-your-changes "mention")
+7.  you need to version the patches that you re-send. A new version number lets reviewers know you made changes to the patch, and they should review it again.
+
+    An example of what this would look like is:
+
+    ```
+    [PATCH] Foo: Fix these things
+    ```
+
+    And the updated versioning for a second revision:
+
+    ```
+    [PATCH v2] Foo: Fix these things better
+    ```
 
 
 
+    *   It's fairly simple to accomplish this, and there's certainly a few ways to do this. If you generate your patches using `git format-patch`, then it's simple to do this. Just add the --subject-prefix option like this:
+
+        ```
+        git format-patch --subject-prefix="PATCH v2"
+        ```
+
+        or whatever version you are currently on (3, 4, etc.).
+    *   When you send a new version of your patch, add version history describing the changes made in the new version. The right place for the version history is after the "**---**" below the **Signed-off-by** tag and the start of the changed file list, as shown in the screenshot below. Everything between the **Signed-off-by** and the diff is just for the reviewers, and will not be included in the commit. Please don’t include version history in the commit log.
+
+        ```
+        Subject: [PATCH v2] Demonstrate that I can use git send-email
+
+        ---
+
+        This fixes the issues raised from the first patch.
+
+        your-name | 1 +
+        1 file changed, 1 insertion(+)
+
+        ```
+    *   This text gives the maintainers some extra context about your patch, but doesn't make it into the final git log.\
+        \
+
+
+        <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+8. Here's a [good example of a patch](http://marc.info/?l=linux-usb\&m=139277576606875\&w=2) with a change log:
+9. In case of more than 2 versions, make sure to include what has changed in each version below the -- so that there is a logical flow and the maintainers do not have to dig up previous versions. The most recently changed version should be described first followed by the subsequent changes. Have a look at this [patch example](https://lkml.org/lkml/2018/2/22/972) with 3 versions to get a better idea.
 
 [^1]: 

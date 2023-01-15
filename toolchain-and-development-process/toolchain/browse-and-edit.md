@@ -57,5 +57,5 @@ Source tree navigation
     `scripts/checkpatch.pl temp`\
     ``
 
-    <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>Development workflow</p></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption><p>Development workflow</p></figcaption></figure>
 12. Make sure you address **checkpatch** errors and/or warnings. Once **checkpatch** is happy.
