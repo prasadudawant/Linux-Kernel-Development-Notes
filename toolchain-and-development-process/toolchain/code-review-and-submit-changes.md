@@ -146,7 +146,7 @@ git email is also email client but we will use it only for sending patch email a
        _`git config --global sendemail.confirm always`_
    3.  After setting this perform dry-run by executing following to confirm setup is ready. it will not send email.
 
-       _git send-email --to="\<yout email id >" --dry-run \<patch path>_
+       _git send-email --to="\<youry email id >" --dry-run \<patch path>_
    4. &#x20;Make sure that the email you specify here is the same email you used to set up sending mail. The Linux kernel developers will not accept a patch where the "From" email differs from the "Signed-off-by" line, which is what will happen if these two emails do not match. Make sure you store your full, legal name in the 'name' line
 
 ### **Setting up mutt with Gmail on Ubuntu (email client)**
