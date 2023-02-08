@@ -13,5 +13,5 @@ description: >-
 
     ```bash
     sudo apt install linux-headers-<kernel version no>
-    #e.g., sudo apt linux-headers-4.15.0-202-generic
+    #e.g., sudo apt install linux-headers-4.15.0-202-generic
     ```
