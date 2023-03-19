@@ -1,6 +1,6 @@
 # Browse and Edit
 
-Source tree navigation
+## Source tree navigation
 
 1. **lxr** - The Linux cross-referencer, lxr, downloadable from [http://lxr.sourceforge.net/](http://lxr.sourceforge.net/), lets you traverse the kernel tree using a web browser by providing hyperlinks to connect kernel symbols with their definitions and uses.
 2. [https://elixir.bootlin.com/linux/latest/source](https://elixir.bootlin.com/linux/latest/source)
@@ -13,7 +13,7 @@ Source tree navigation
       *   Maintainer: Linus Torvalds
 
           Goal is to release a new kernel every 8-12 weeks. Once release 2.6.X is released, 2.6.X+1 is opened for 2 weeks, and patches are merged, often from -mm and other maintainer trees, but also from LKML(Linux kernel mailing list) directly. After the 2 week 'open-season', -rc1 is released, which begins the slow freeze from 'slushy', and hardening slowly as -rc2, and successors are released, as Linus sees fit. These are also called **current**, and **mainline** Once new releases are made, other trees are re-based against the new release.&#x20;
-   2. **-stable** ie **2.6.x.y**
+   2. **-stable** i.e. **2.6.x.y**
       * Maintainer: Greg Kroah-Hartman This tree gets bug-fixes after 2.6.x is released. Patches must be:
         * small - less than 100 lines
         * already in current (or equivalent form)

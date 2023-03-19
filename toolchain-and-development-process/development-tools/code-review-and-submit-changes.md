@@ -23,7 +23,7 @@ description: >-
 1. Commit Your changes.
 2. When you commit a patch, you will have to describe what the patch does. The commit message has a subject or short log and longer commit message. It is important to learn what should be in the commit log and what doesn’t make sense. Including what code does isn’t very helpful, whereas why the code change is needed is valuable. Please read [_How to Write a Git Commit Message_](https://chris.beams.io/posts/git-commit/) for tips on writing good commit messages.
 3. Now, run the commit and add a commit message. Document your change and include relevant testing details and results of that testing. As a general rule, don't include change lines in the commit log.
-4. After you make the commit, git post commit hook will output any **checkpatch** errors or warnings that your patch creates. If you see warnings or errors that you know you added, you can amend the commit by changing the file, using **git add** to add the changes, and then using **git commit --amend** to commit the changes. Refer [#revising-the-patches](code-review-and-submit-changes.md#revising-the-patches "mention") Follow steps from [#workflow](../../#workflow "mention") untill you resolve all errors.
+4. After you make the commit, git post commit hook will output any **checkpatch** errors or warnings that your patch creates. If you see warnings or errors that you know you added, you can amend the commit by changing the file, using **git add** to add the changes, and then using **git commit --amend** to commit the changes. Refer [#revising-the-patches](code-review-and-submit-changes.md#revising-the-patches "mention") Follow steps from [#workflow](<../../README (1).md#workflow> "mention") untill you resolve all errors.
 5. When working on a patch based on a suggested idea, make sure to give credit using the **Suggested-by** tag. [Other tags](https://www.kernel.org/doc/html/latest/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes) used for giving credit are **Tested-by**, **Reported-by**. **Signed-off-by** should be the last tag.
 6. Make sure your commit looks fine by running these commands:
    * `git show HEAD` - This will show the latest commit. If you want git to show a different commit, you can pass the commit ID (the long number that's shown in `git log`, or the short number that's shown in `git log --pretty=oneline --abbrev-commit`
@@ -329,7 +329,7 @@ git email is also email client but we will use it only for sending patch email a
 ### Revising the patches
 
 1. Make the changes - Update the files to match the changes requested by the maintainers.
-2. Follow[#workflow](../../#workflow "mention")
+2. Follow[#workflow](<../../README (1).md#workflow> "mention")
 3. commit - add changes to the staging area with `git add`, you can add those changes to your commit with the amend command, along with your previously committed changes.
    1. If the patch is your HEAD commit, you can run:\
       `git commit -a --amend -v` \
