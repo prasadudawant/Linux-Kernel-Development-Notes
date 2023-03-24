@@ -8,12 +8,12 @@ description: >-
 
 ## Workflow
 
-1. [#edit-the-source-code-and-make-your-changes](toolchain-and-development-process/development-tools/browse-and-edit.md#edit-the-source-code-and-make-your-changes "mention")
-2. [#configure-your-kernel](toolchain-and-development-process/development-tools/config-and-build.md#configure-your-kernel "mention") - You'll need to make sure the driver you're changing is configured as a module/built in and config file has been saved.
-3. [#build-your-kernel](toolchain-and-development-process/development-tools/config-and-build.md#build-your-kernel "mention") - You may need to fix some compilation errors. Also fix any new warnings that are due to your changes. Make sure that drivers do not produce warnings on anyone's system (this includes 32-bit and 64-bit systems, as well as different architectures, such as PPC, ARM, or x86). New features or bug fix patches that add additional warnings may not get merged.
-4. [#test-your-changes](toolchain-and-development-process/development-tools/test-and-verify.md#test-your-changes "mention")
-5. [#commit-your-changes](toolchain-and-development-process/development-tools/code-review-and-submit-changes.md#commit-your-changes "mention")
-6. [#create-and-send-patch](toolchain-and-development-process/development-tools/code-review-and-submit-changes.md#create-and-send-patch "mention")
+1. [#edit-the-source-code-and-make-your-changes](toolchain-and-development-process/toolchain/browse-and-edit.md#edit-the-source-code-and-make-your-changes "mention")
+2. [#configure-your-kernel](toolchain-and-development-process/toolchain/config-and-build.md#configure-your-kernel "mention") - You'll need to make sure the driver you're changing is configured as a module/built in and config file has been saved.
+3. [#build-your-kernel](toolchain-and-development-process/toolchain/config-and-build.md#build-your-kernel "mention") - You may need to fix some compilation errors. Also fix any new warnings that are due to your changes. Make sure that drivers do not produce warnings on anyone's system (this includes 32-bit and 64-bit systems, as well as different architectures, such as PPC, ARM, or x86). New features or bug fix patches that add additional warnings may not get merged.
+4. [#test-your-changes](toolchain-and-development-process/toolchain/test-and-verify/#test-your-changes "mention")
+5. [#commit-your-changes](toolchain-and-development-process/toolchain/code-review-and-submit-changes.md#commit-your-changes "mention")
+6. [#create-and-send-patch](toolchain-and-development-process/toolchain/code-review-and-submit-changes.md#create-and-send-patch "mention")
 
 ### Communication and  behavioral
 
